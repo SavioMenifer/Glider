@@ -7,6 +7,7 @@ import 'package:glider/models/item_tree.dart';
 import 'package:glider/models/tree_item.dart';
 import 'package:glider/pages/item_page.dart';
 import 'package:glider/providers/item_provider.dart';
+import 'package:glider/providers/persistence_provider.dart';
 import 'package:glider/utils/text_style_extension.dart';
 import 'package:glider/widgets/common/block.dart';
 import 'package:glider/widgets/common/refreshable_body.dart';
@@ -49,12 +50,27 @@ class ItemBody extends HookConsumerWidget {
           parentId = firstItem?.parent ?? firstItem?.poll;
         }
 
+        bool isCollapsed(int id) =>
+            ref.watch(collapsedProvider(id)).value ?? false;
+
+        // Descendants of a collapsed ancestor render as nothing anyway (see
+        // CollapsibleItemTile); keeping them out of the animated list
+        // entirely avoids playing an insert animation for every comment that
+        // streams in behind a collapsed parent.
+        final Iterable<TreeItem> visibleTreeItems = itemTree.treeItems.where(
+          (TreeItem treeItem) => !treeItem.ancestorIds.any(
+            (int ancestorId) =>
+                ancestorId != firstItem?.id && isCollapsed(ancestorId),
+          ),
+        );
+
         return <Widget>[
           if (parentId != null)
             SliverToBoxAdapter(child: _buildOpenParent(context, parentId)),
           SliverSmoothAnimatedList<TreeItem>(
-            items: itemTree.treeItems,
+            items: visibleTreeItems,
             builder: (_, TreeItem treeItem, int index) => CollapsibleItemTile(
+              key: ValueKey<int>(treeItem.id),
               id: treeItem.id,
               ancestorIds: treeItem.ancestorIds,
               descendantIds: treeItem.descendantIds,

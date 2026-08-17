@@ -103,10 +103,10 @@ final StreamProviderFamily<ItemTree, int> itemTreeStreamProvider =
           .indexWhere((TreeItem oldTreeItem) => oldTreeItem.id == treeItem.id);
       treeItems.insertAll(index + 1, treeItem.childTreeItems);
 
-      yield ItemTree(treeItems: treeItems, done: false);
+      yield ItemTree(treeItems: List<TreeItem>.of(treeItems), done: false);
     }
 
-    yield ItemTree(treeItems: treeItems);
+    yield ItemTree(treeItems: List<TreeItem>.of(treeItems));
   },
 );
 

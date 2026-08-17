@@ -111,13 +111,10 @@ class _SliverSmoothAnimatedListState<T>
   }
 
   void _onChanged(int position, Object? payload, List<T?> tempList) {
-    listKey.currentState!.removeItem(
-      position,
-      (BuildContext context, Animation<double> animation) =>
-          const SizedBox.shrink(),
-      duration: Duration.zero,
-    );
-    _onInserted(position, 1, tempList);
+    // Content-only change (e.g. an ancestor's descendant count ticking up).
+    // The row is keyed, so Flutter already rebuilds it in place on the next
+    // frame from the updated `widget.items` — no need to destroy/recreate it.
+    tempList[position] = widget.items[position];
   }
 
   void _onMoved(int from, int to) =>
