@@ -1,7 +1,6 @@
-# Glider for Hacker News
+# Glider for Hacker News (personal fork)
 
-[<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" alt="Get it on Google Play" height="80">][play store]
-[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80">][f-droid]
+This is [saviomenifer](https://github.com/SavioMenifer)'s personal fork of [Mosc/Glider](https://github.com/Mosc/Glider), pinned to the pre-v2 (Material 2) design rather than following upstream's v2 redesign. It's maintained for personal use, side-loaded rather than distributed via the Play Store or F-Droid.
 
 Glider is an opinionated Hacker News client. Ad-free, open-source, no-nonsense.
 
@@ -30,6 +29,3 @@ Glider is built with the latest stable version of Flutter. Code that can be gene
 ```sh
 flutter pub run build_runner build -d
 ```
-
-[play store]: https://play.google.com/store/apps/details?id=nl.viter.glider
-[f-droid]: https://f-droid.org/packages/nl.viter.glider
