@@ -12,12 +12,13 @@ import 'package:glider/widgets/common/refreshable_body.dart';
 import 'package:glider/widgets/items/comment_tile_loading.dart';
 import 'package:glider/widgets/items/item_tile.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:hooks_riverpod/legacy.dart';
 
 class InboxBody extends HookConsumerWidget with PaginationMixin {
   const InboxBody({super.key});
 
   @override
-  AutoDisposeStateProvider<int> get paginationStateProvider =>
+  StateProvider<int> get paginationStateProvider =>
       inboxPaginationStateProvider;
 
   @override
@@ -33,7 +34,7 @@ class InboxBody extends HookConsumerWidget with PaginationMixin {
 
   Widget _inboxDataBuilder(BuildContext context, WidgetRef ref,
       {required String username}) {
-    final AutoDisposeStateNotifierProvider<
+    final StateNotifierProvider<
             AsyncStateNotifier<Iterable<TreeItem>>,
             AsyncValue<Iterable<TreeItem>>> provider =
         itemRepliesNotifierProvider(username);

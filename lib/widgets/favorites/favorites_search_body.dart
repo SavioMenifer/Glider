@@ -1,6 +1,6 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:glider/l10n/app_localizations.dart';
 import 'package:glider/models/search_parameters.dart';
 import 'package:glider/pages/favorites_search_page.dart';
 import 'package:glider/pages/item_page.dart';
@@ -13,17 +13,18 @@ import 'package:glider/widgets/common/refreshable_body.dart';
 import 'package:glider/widgets/items/comment_tile_loading.dart';
 import 'package:glider/widgets/items/item_tile.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:hooks_riverpod/legacy.dart';
 
 class FavoritesSearchBody extends HookConsumerWidget with PaginationMixin {
   const FavoritesSearchBody({super.key});
 
   @override
-  AutoDisposeStateProvider<int> get paginationStateProvider =>
+  StateProvider<int> get paginationStateProvider =>
       favoritesSearchPaginationStateProvider;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final AutoDisposeStateNotifierProvider<AsyncStateNotifier<Iterable<int>>,
+    final StateNotifierProvider<AsyncStateNotifier<Iterable<int>>,
         AsyncValue<Iterable<int>>> provider = itemIdsSearchNotifierProvider(
       SearchParameters.favorites(
         query: ref.watch(favoriteSearchQueryStateProvider),

@@ -1,6 +1,6 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:glider/l10n/app_localizations.dart';
 import 'package:glider/commands/command.dart';
 import 'package:glider/commands/delete_command.dart';
 import 'package:glider/commands/edit_command.dart';

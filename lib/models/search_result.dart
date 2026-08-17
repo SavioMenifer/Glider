@@ -4,7 +4,7 @@ part 'search_result.freezed.dart';
 part 'search_result.g.dart';
 
 @Freezed(toJson: false)
-class SearchResult with _$SearchResult {
+abstract class SearchResult with _$SearchResult {
   factory SearchResult({
     @Default(<SearchResultHit>[]) Iterable<SearchResultHit> hits,
   }) = _SearchResult;
@@ -16,7 +16,7 @@ class SearchResult with _$SearchResult {
 }
 
 @Freezed(toJson: false)
-class SearchResultHit with _$SearchResultHit {
+abstract class SearchResultHit with _$SearchResultHit {
   factory SearchResultHit({
     @JsonKey(name: 'objectID') required String id,
     @JsonKey(name: 'parent_id') int? parentId,

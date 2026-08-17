@@ -7,7 +7,7 @@ part 'item.freezed.dart';
 part 'item.g.dart';
 
 @Freezed(toJson: false)
-class Item with _$Item {
+abstract class Item with _$Item {
   factory Item({
     required int id,
     @Default(false) bool deleted,

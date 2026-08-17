@@ -6,10 +6,11 @@ import 'package:glider/widgets/common/floating_app_bar_scroll_view.dart';
 import 'package:glider/widgets/common/scroll_to_top_scaffold.dart';
 import 'package:glider/widgets/users/user_body.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:hooks_riverpod/legacy.dart';
 
-final AutoDisposeStateProvider<int> userPaginationStateProvider =
+final StateProvider<int> userPaginationStateProvider =
     StateProvider.autoDispose<int>(
-  (AutoDisposeStateProviderRef<int> ref) => PaginationMixin.initialPage,
+  (Ref ref) => PaginationMixin.initialPage,
 );
 
 class UserPage extends HookConsumerWidget {

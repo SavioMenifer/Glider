@@ -14,55 +14,43 @@ import 'package:glider/providers/repository_provider.dart';
 import 'package:glider/utils/async_state_notifier.dart';
 import 'package:glider/utils/service_exception.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:riverpod/misc.dart';
+import 'package:hooks_riverpod/legacy.dart';
 import 'package:queue/queue.dart';
 
 final StateProvider<int> previewIdStateProvider =
-    StateProvider<int>((StateProviderRef<int> ref) => -1);
+    StateProvider<int>((Ref ref) => -1);
 
-final AutoDisposeStateNotifierProvider<AsyncStateNotifier<Iterable<int>>,
+final StateNotifierProvider<AsyncStateNotifier<Iterable<int>>,
         AsyncValue<Iterable<int>>> favoriteIdsNotifierProvider =
     StateNotifierProvider.autoDispose(
-  (AutoDisposeStateNotifierProviderRef<AsyncStateNotifier<Iterable<int>>,
-              AsyncValue<Iterable<int>>>
-          ref) =>
-      AsyncStateNotifier<Iterable<int>>(
+  (Ref ref) => AsyncStateNotifier<Iterable<int>>(
     () => ref.read(storageRepositoryProvider).favoriteIds,
   ),
 );
 
-final AutoDisposeStateNotifierProviderFamily<AsyncStateNotifier<Iterable<int>>,
+final StateNotifierProviderFamily<AsyncStateNotifier<Iterable<int>>,
         AsyncValue<Iterable<int>>, StoryType> storyIdsNotifierProvider =
     StateNotifierProvider.autoDispose.family(
-  (AutoDisposeStateNotifierProviderRef<AsyncStateNotifier<Iterable<int>>,
-                  AsyncValue<Iterable<int>>>
-              ref,
-          StoryType storyType) =>
-      AsyncStateNotifier<Iterable<int>>(
+  (Ref ref, StoryType storyType) => AsyncStateNotifier<Iterable<int>>(
     () => ref.read(apiRepositoryProvider).getStoryIds(storyType),
   ),
 );
 
-final AutoDisposeStateNotifierProviderFamily<AsyncStateNotifier<Iterable<int>>,
+final StateNotifierProviderFamily<AsyncStateNotifier<Iterable<int>>,
         AsyncValue<Iterable<int>>, SearchParameters>
     itemIdsSearchNotifierProvider = StateNotifierProvider.autoDispose.family(
-  (AutoDisposeStateNotifierProviderRef<AsyncStateNotifier<Iterable<int>>,
-                  AsyncValue<Iterable<int>>>
-              ref,
-          SearchParameters searchParameters) =>
+  (Ref ref, SearchParameters searchParameters) =>
       AsyncStateNotifier<Iterable<int>>(
     () => ref.read(searchApiRepositoryProvider).searchItemIds(searchParameters),
   ),
 );
-final AutoDisposeStateNotifierProviderFamily<
+final StateNotifierProviderFamily<
         AsyncStateNotifier<Iterable<TreeItem>>,
         AsyncValue<Iterable<TreeItem>>,
         String> itemRepliesNotifierProvider =
     StateNotifierProvider.autoDispose.family(
-  (AutoDisposeStateNotifierProviderRef<AsyncStateNotifier<Iterable<TreeItem>>,
-                  AsyncValue<Iterable<TreeItem>>>
-              ref,
-          String username) =>
-      AsyncStateNotifier<Iterable<TreeItem>>(() async {
+  (Ref ref, String username) => AsyncStateNotifier<Iterable<TreeItem>>(() async {
     final User user = await ref.read(apiRepositoryProvider).getUser(username);
     final SearchResult searchResult =
         await ref.read(searchApiRepositoryProvider).searchItems(
@@ -87,16 +75,14 @@ final AutoDisposeStateNotifierProviderFamily<
 
 final StateNotifierProviderFamily<AsyncStateNotifier<Item>, AsyncValue<Item>,
     int> itemNotifierProvider = StateNotifierProvider.family(
-  (StateNotifierProviderRef<AsyncStateNotifier<Item>, AsyncValue<Item>> ref,
-          int id) =>
-      AsyncStateNotifier<Item>(
+  (Ref ref, int id) => AsyncStateNotifier<Item>(
     () => ref.read(apiRepositoryProvider).getItem(id),
   ),
 );
 
-final AutoDisposeStreamProviderFamily<ItemTree, int> itemTreeStreamProvider =
+final StreamProviderFamily<ItemTree, int> itemTreeStreamProvider =
     StreamProvider.autoDispose.family(
-  (AutoDisposeStreamProviderRef<ItemTree> ref, int id) async* {
+  (Ref ref, int id) async* {
     final Queue queue = Queue(parallel: 8);
     final Stream<TreeItem> treeItemStream =
         _itemStream(ref, id: id, queue: queue);
@@ -125,7 +111,7 @@ final AutoDisposeStreamProviderFamily<ItemTree, int> itemTreeStreamProvider =
 );
 
 Stream<TreeItem> _itemStream(
-  Ref<AsyncValue<ItemTree>> ref, {
+  Ref ref, {
   required int id,
   Iterable<int> ancestorIds = const <int>[],
   Queue? queue,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:glider/l10n/app_localizations.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:glider/models/item.dart';
@@ -14,6 +14,7 @@ import 'package:glider/utils/scaffold_messenger_state_extension.dart';
 import 'package:glider/widgets/common/experimental.dart';
 import 'package:glider/widgets/items/item_tile_data.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:hooks_riverpod/legacy.dart';
 
 class ReplyBody extends HookConsumerWidget {
   const ReplyBody({super.key, required this.parent, this.root});
@@ -137,7 +138,7 @@ class ReplyBody extends HookConsumerWidget {
 
     if (success) {
       final StateController<int> previewIdStateController =
-          ref.read(previewIdStateProvider.state);
+          ref.read(previewIdStateProvider.notifier);
       final int previewId = previewIdStateController.state;
 
       // Make comment preview available.

@@ -16,9 +16,11 @@ import 'package:glider/widgets/items/item_bottom_sheet.dart';
 import 'package:glider/widgets/items/item_tile_content.dart';
 import 'package:glider/widgets/items/item_tile_content_poll_option.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:riverpod/misc.dart';
+import 'package:hooks_riverpod/legacy.dart';
 
 StateProviderFamily<bool?, int> _delayedUpvoteStateProvider =
-    StateProvider.family((StateProviderRef<bool?> ref, int id) => null);
+    StateProvider.family((Ref ref, int id) => null);
 
 class ItemTileData extends HookConsumerWidget {
   const ItemTileData(
@@ -114,7 +116,7 @@ class ItemTileData extends HookConsumerWidget {
     // We don't want the slidable to update while being slided, so we delay any
     // upvote state until after the call has actually finished.
     final StateController<bool?> delayedUpvotedController =
-        ref.watch(_delayedUpvoteStateProvider(item.id).state);
+        ref.watch(_delayedUpvoteStateProvider(item.id).notifier);
 
     Future<void> updateDelayedUpvoted() async {
       final bool upvoted = await ref.read(upvotedProvider(item.id).future);

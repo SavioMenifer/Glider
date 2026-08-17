@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:glider/l10n/app_localizations.dart';
 import 'package:flutter_web_browser/flutter_web_browser.dart';
 import 'package:glider/providers/persistence_provider.dart';
 import 'package:glider/utils/scaffold_messenger_state_extension.dart';
@@ -37,7 +37,7 @@ class UrlUtil {
 
   static Future<bool> _tryLaunchCustomTab(
       BuildContext context, String urlString) async {
-    final AppBarTheme appBarTheme = Theme.of(context).appBarTheme;
+    final AppBarThemeData appBarTheme = Theme.of(context).appBarTheme;
 
     try {
       await FlutterWebBrowser.openWebPage(

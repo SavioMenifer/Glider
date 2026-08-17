@@ -1,7 +1,7 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:glider/l10n/app_localizations.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:glider/models/search_order.dart';
 import 'package:glider/utils/color_extension.dart';
@@ -10,27 +10,28 @@ import 'package:glider/widgets/common/floating_app_bar_scroll_view.dart';
 import 'package:glider/widgets/common/scroll_to_top_scaffold.dart';
 import 'package:glider/widgets/favorites/favorites_search_body.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:hooks_riverpod/legacy.dart';
 
-final AutoDisposeStateProvider<String> favoriteSearchQueryStateProvider =
+final StateProvider<String> favoriteSearchQueryStateProvider =
     StateProvider.autoDispose<String>(
-  (AutoDisposeStateProviderRef<String> ref) => '',
+  (Ref ref) => '',
 );
 
-final AutoDisposeStateProvider<SearchOrder> favoriteSearchOrderStateProvider =
+final StateProvider<SearchOrder> favoriteSearchOrderStateProvider =
     StateProvider.autoDispose<SearchOrder>(
-  (AutoDisposeStateProviderRef<SearchOrder> ref) => SearchOrder.byRelevance,
+  (Ref ref) => SearchOrder.byRelevance,
 );
 
-final AutoDisposeStateProvider<int> favoritesSearchPaginationStateProvider =
+final StateProvider<int> favoritesSearchPaginationStateProvider =
     StateProvider.autoDispose<int>(
-  (AutoDisposeStateProviderRef<int> ref) => PaginationMixin.initialPage,
+  (Ref ref) => PaginationMixin.initialPage,
 );
 
 class FavoritesSearchPage extends HookConsumerWidget with PaginationMixin {
   const FavoritesSearchPage({super.key});
 
   @override
-  AutoDisposeStateProvider<int> get paginationStateProvider =>
+  StateProvider<int> get paginationStateProvider =>
       favoritesSearchPaginationStateProvider;
 
   @override
@@ -69,7 +70,7 @@ class FavoritesSearchPage extends HookConsumerWidget with PaginationMixin {
             onChanged: (String value) {
               resetPagination(ref);
               ref
-                  .read(favoriteSearchQueryStateProvider.state)
+                  .read(favoriteSearchQueryStateProvider.notifier)
                   .update((_) => value);
             },
           ),
@@ -82,7 +83,7 @@ class FavoritesSearchPage extends HookConsumerWidget with PaginationMixin {
                   resetPagination(ref);
                   queryController.clear();
                   ref
-                      .read(favoriteSearchQueryStateProvider.state)
+                      .read(favoriteSearchQueryStateProvider.notifier)
                       .update((_) => '');
                 },
               ),
@@ -97,7 +98,7 @@ class FavoritesSearchPage extends HookConsumerWidget with PaginationMixin {
               onSelected: (SearchOrder searchOrder) {
                 resetPagination(ref);
                 ref
-                    .read(favoriteSearchOrderStateProvider.state)
+                    .read(favoriteSearchOrderStateProvider.notifier)
                     .update((_) => searchOrder);
               },
               tooltip: AppLocalizations.of(context).sort,

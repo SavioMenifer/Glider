@@ -9,6 +9,7 @@ import 'package:glider/widgets/common/sliver_smooth_animated_list.dart';
 import 'package:glider/widgets/items/comment_tile_loading.dart';
 import 'package:glider/widgets/items/item_tile.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:hooks_riverpod/legacy.dart';
 
 class ItemSearchBody extends HookConsumerWidget {
   const ItemSearchBody({super.key, required this.storyId});
@@ -17,7 +18,7 @@ class ItemSearchBody extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final AutoDisposeStateNotifierProvider<AsyncStateNotifier<Iterable<int>>,
+    final StateNotifierProvider<AsyncStateNotifier<Iterable<int>>,
         AsyncValue<Iterable<int>>> provider = itemIdsSearchNotifierProvider(
       SearchParameters.item(
         query: ref.watch(itemSearchQueryStateProvider),

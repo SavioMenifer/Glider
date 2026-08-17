@@ -8,22 +8,23 @@ import 'package:glider/widgets/items/comment_tile_loading.dart';
 import 'package:glider/widgets/items/item_tile.dart';
 import 'package:glider/widgets/items/story_tile_loading.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:hooks_riverpod/legacy.dart';
 
-final AutoDisposeStateProvider<int> favoritesPaginationStateProvider =
+final StateProvider<int> favoritesPaginationStateProvider =
     StateProvider.autoDispose<int>(
-  (AutoDisposeStateProviderRef<int> ref) => PaginationMixin.initialPage,
+  (Ref ref) => PaginationMixin.initialPage,
 );
 
 class FavoritesBody extends HookConsumerWidget with PaginationMixin {
   const FavoritesBody({super.key});
 
   @override
-  AutoDisposeStateProvider<int> get paginationStateProvider =>
+  StateProvider<int> get paginationStateProvider =>
       favoritesPaginationStateProvider;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final AutoDisposeStateNotifierProvider<AsyncStateNotifier<Iterable<int>>,
+    final StateNotifierProvider<AsyncStateNotifier<Iterable<int>>,
         AsyncValue<Iterable<int>>> provider = favoriteIdsNotifierProvider;
 
     return RefreshableBody<Iterable<int>>(

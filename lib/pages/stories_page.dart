@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:glider/l10n/app_localizations.dart';
 import 'package:glider/models/stories_menu_action.dart';
 import 'package:glider/models/story_type.dart';
 import 'package:glider/pages/account_page.dart';
@@ -20,22 +20,23 @@ import 'package:glider/widgets/common/floating_app_bar_scroll_view.dart';
 import 'package:glider/widgets/common/scroll_to_top_scaffold.dart';
 import 'package:glider/widgets/items/stories_body.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:hooks_riverpod/legacy.dart';
 
-final AutoDisposeStateProvider<StoryType> storyTypeStateProvider =
+final StateProvider<StoryType> storyTypeStateProvider =
     StateProvider.autoDispose<StoryType>(
-  (AutoDisposeStateProviderRef<StoryType> ref) => StoryType.topStories,
+  (Ref ref) => StoryType.topStories,
 );
 
-final AutoDisposeStateProvider<int> storyPaginationStateProvider =
+final StateProvider<int> storyPaginationStateProvider =
     StateProvider.autoDispose<int>(
-  (AutoDisposeStateProviderRef<int> ref) => PaginationMixin.initialPage,
+  (Ref ref) => PaginationMixin.initialPage,
 );
 
 class StoriesPage extends HookConsumerWidget with PaginationMixin {
   const StoriesPage({super.key});
 
   @override
-  AutoDisposeStateProvider<int> get paginationStateProvider =>
+  StateProvider<int> get paginationStateProvider =>
       storyPaginationStateProvider;
 
   @override
@@ -60,7 +61,7 @@ class StoriesPage extends HookConsumerWidget with PaginationMixin {
             ],
             onSelected: (StoryType storyType) {
               resetPagination(ref);
-              ref.read(storyTypeStateProvider.state).update((_) => storyType);
+              ref.read(storyTypeStateProvider.notifier).update((_) => storyType);
             },
             tooltip: AppLocalizations.of(context).storyType,
             icon: const Icon(FluentIcons.filter_24_regular),
@@ -166,7 +167,7 @@ class StoriesPage extends HookConsumerWidget with PaginationMixin {
               .forceLoad(),
         );
         ref
-            .read(storyTypeStateProvider.state)
+            .read(storyTypeStateProvider.notifier)
             .update((_) => StoryType.newStories);
         ScaffoldMessenger.of(context).replaceSnackBar(
           SnackBar(

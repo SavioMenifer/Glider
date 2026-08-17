@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:glider/l10n/app_localizations.dart';
 import 'package:glider/commands/command.dart';
 import 'package:glider/models/user.dart';
 import 'package:glider/providers/user_provider.dart';

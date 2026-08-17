@@ -5,7 +5,7 @@ part 'user.freezed.dart';
 part 'user.g.dart';
 
 @Freezed(toJson: false)
-class User with _$User {
+abstract class User with _$User {
   factory User({
     required String id,
     required int created,

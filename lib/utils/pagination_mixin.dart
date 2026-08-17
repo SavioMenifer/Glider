@@ -1,17 +1,18 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:glider/l10n/app_localizations.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:glider/providers/persistence_provider.dart';
 import 'package:glider/widgets/common/sliver_smooth_animated_list.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:hooks_riverpod/legacy.dart';
 
 mixin PaginationMixin {
   static const int initialPage = 1;
   static const int pageSize = 30;
 
-  AutoDisposeStateProvider<int> get paginationStateProvider;
+  StateProvider<int> get paginationStateProvider;
 
   Iterable<Widget> buildPaginationSlivers<T extends Object>(
     BuildContext context,
@@ -24,7 +25,7 @@ mixin PaginationMixin {
     final bool useInfiniteScroll =
         ref.watch(useInfiniteScrollProvider).value ?? true;
     final StateController<int> paginationStateController =
-        ref.watch(paginationStateProvider.state);
+        ref.watch(paginationStateProvider.notifier);
 
     return <Widget>[
       SliverSmoothAnimatedList<T>(
@@ -55,5 +56,5 @@ mixin PaginationMixin {
   }
 
   void resetPagination(WidgetRef ref) =>
-      ref.read(paginationStateProvider.state).update((_) => initialPage);
+      ref.read(paginationStateProvider.notifier).update((_) => initialPage);
 }

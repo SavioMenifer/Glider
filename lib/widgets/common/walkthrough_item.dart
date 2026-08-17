@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:glider/l10n/app_localizations.dart';
 import 'package:glider/models/slidable_action.dart';
 import 'package:glider/models/walkthrough_step.dart';
 import 'package:glider/providers/persistence_provider.dart';
@@ -14,20 +14,21 @@ import 'package:glider/widgets/common/slidable.dart';
 import 'package:glider/widgets/common/smooth_animated_size.dart';
 import 'package:glider/widgets/common/smooth_animated_switcher.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:hooks_riverpod/legacy.dart';
 
-final AutoDisposeStateProvider<WalkthroughStep> _walkthroughStepStateProvider =
+final StateProvider<WalkthroughStep> _walkthroughStepStateProvider =
     StateProvider.autoDispose<WalkthroughStep>(
-  (AutoDisposeStateProviderRef<WalkthroughStep> ref) => WalkthroughStep.step1,
+  (Ref ref) => WalkthroughStep.step1,
 );
 
-final AutoDisposeStateProvider<bool> _walkthroughUpvotedStateProvider =
+final StateProvider<bool> _walkthroughUpvotedStateProvider =
     StateProvider.autoDispose<bool>(
-  (AutoDisposeStateProviderRef<bool> ref) => false,
+  (Ref ref) => false,
 );
 
-final AutoDisposeStateProvider<bool> _walkthroughFavoritedStateProvider =
+final StateProvider<bool> _walkthroughFavoritedStateProvider =
     StateProvider.autoDispose<bool>(
-  (AutoDisposeStateProviderRef<bool> ref) => false,
+  (Ref ref) => false,
 );
 
 class WalkthoughItem extends HookConsumerWidget {
@@ -36,11 +37,11 @@ class WalkthoughItem extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final StateController<WalkthroughStep> stepStateController =
-        ref.watch(_walkthroughStepStateProvider.state);
+        ref.watch(_walkthroughStepStateProvider.notifier);
     final StateController<bool> upvotedStateController =
-        ref.watch(_walkthroughUpvotedStateProvider.state);
+        ref.watch(_walkthroughUpvotedStateProvider.notifier);
     final StateController<bool> favoritedStateController =
-        ref.watch(_walkthroughFavoritedStateProvider.state);
+        ref.watch(_walkthroughFavoritedStateProvider.notifier);
 
     Future<void>.microtask(() {
       switch (stepStateController.state) {

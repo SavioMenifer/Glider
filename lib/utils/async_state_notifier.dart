@@ -1,4 +1,5 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:hooks_riverpod/legacy.dart';
 
 class AsyncStateNotifier<T> extends StateNotifier<AsyncValue<T>> {
   AsyncStateNotifier(this.getData) : super(AsyncValue<T>.loading()) {

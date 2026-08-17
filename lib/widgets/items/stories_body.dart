@@ -10,19 +10,20 @@ import 'package:glider/widgets/common/walkthrough_item.dart';
 import 'package:glider/widgets/items/item_tile.dart';
 import 'package:glider/widgets/items/story_tile_loading.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:hooks_riverpod/legacy.dart';
 
 class StoriesBody extends HookConsumerWidget with PaginationMixin {
   const StoriesBody({super.key});
 
   @override
-  AutoDisposeStateProvider<int> get paginationStateProvider =>
+  StateProvider<int> get paginationStateProvider =>
       storyPaginationStateProvider;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bool completedWalkthrough =
         ref.watch(completedWalkthroughProvider).value ?? true;
-    final AutoDisposeStateNotifierProvider<AsyncStateNotifier<Iterable<int>>,
+    final StateNotifierProvider<AsyncStateNotifier<Iterable<int>>,
             AsyncValue<Iterable<int>>> provider =
         storyIdsNotifierProvider(ref.watch(storyTypeStateProvider));
 

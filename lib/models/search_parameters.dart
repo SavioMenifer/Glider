@@ -6,7 +6,7 @@ import 'package:glider/models/search_range.dart';
 part 'search_parameters.freezed.dart';
 
 @freezed
-class SearchParameters with _$SearchParameters {
+abstract class SearchParameters with _$SearchParameters {
   factory SearchParameters.stories({
     String? query,
     SearchRange? range,

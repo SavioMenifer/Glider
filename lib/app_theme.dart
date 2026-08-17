@@ -102,7 +102,24 @@ class AppTheme {
             )
           : null,
       dialogBackgroundColor: canvasColor,
-      toggleableActiveColor: color,
+      switchTheme: SwitchThemeData(
+        thumbColor: WidgetStateProperty.resolveWith(
+          (Set<WidgetState> states) =>
+              states.contains(WidgetState.selected) ? color : null,
+        ),
+      ),
+      checkboxTheme: CheckboxThemeData(
+        fillColor: WidgetStateProperty.resolveWith(
+          (Set<WidgetState> states) =>
+              states.contains(WidgetState.selected) ? color : null,
+        ),
+      ),
+      radioTheme: RadioThemeData(
+        fillColor: WidgetStateProperty.resolveWith(
+          (Set<WidgetState> states) =>
+              states.contains(WidgetState.selected) ? color : null,
+        ),
+      ),
       appBarTheme: AppBarTheme(
         backgroundColor: appBarBackgroundColor,
         iconTheme: IconThemeData(

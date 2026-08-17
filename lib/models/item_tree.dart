@@ -4,7 +4,7 @@ import 'package:glider/models/tree_item.dart';
 part 'item_tree.freezed.dart';
 
 @freezed
-class ItemTree with _$ItemTree {
+abstract class ItemTree with _$ItemTree {
   factory ItemTree({
     required Iterable<TreeItem> treeItems,
     @Default(true) bool done,

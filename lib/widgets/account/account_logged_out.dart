@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:glider/l10n/app_localizations.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -19,7 +19,7 @@ class AccountLoggedOut extends HookConsumerWidget {
 
   static const int _usernameMinLength = 2;
   static const int _usernameMaxLength = 15;
-  static const String _usernamePattern = r'^[A-Za-z0-9\-_]+$';
+  static final RegExp _usernamePattern = RegExp(r'^[A-Za-z0-9\-_]+$');
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

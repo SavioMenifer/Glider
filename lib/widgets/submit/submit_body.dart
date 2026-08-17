@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:glider/l10n/app_localizations.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:glider/models/item.dart';
@@ -17,6 +17,7 @@ import 'package:glider/utils/scaffold_messenger_state_extension.dart';
 import 'package:glider/widgets/common/experimental.dart';
 import 'package:glider/widgets/items/item_tile_data.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:hooks_riverpod/legacy.dart';
 
 class SubmitBody extends HookConsumerWidget {
   const SubmitBody({super.key});
@@ -238,7 +239,7 @@ class SubmitBody extends HookConsumerWidget {
 
     if (success) {
       // Decrement preview ID to prevent duplicates.
-      ref.read(previewIdStateProvider.state).update((int state) => state - 1);
+      ref.read(previewIdStateProvider.notifier).update((int state) => state - 1);
 
       Navigator.of(context).pop(true);
     } else {

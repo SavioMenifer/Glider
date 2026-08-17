@@ -9,17 +9,18 @@ import 'package:glider/widgets/common/refreshable_body.dart';
 import 'package:glider/widgets/items/item_tile.dart';
 import 'package:glider/widgets/items/story_tile_loading.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:hooks_riverpod/legacy.dart';
 
 class StoriesSearchBody extends HookConsumerWidget with PaginationMixin {
   const StoriesSearchBody({super.key});
 
   @override
-  AutoDisposeStateProvider<int> get paginationStateProvider =>
+  StateProvider<int> get paginationStateProvider =>
       storySearchPaginationStateProvider;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final AutoDisposeStateNotifierProvider<AsyncStateNotifier<Iterable<int>>,
+    final StateNotifierProvider<AsyncStateNotifier<Iterable<int>>,
         AsyncValue<Iterable<int>>> provider = itemIdsSearchNotifierProvider(
       SearchParameters.stories(
         query: ref.watch(storySearchQueryStateProvider),

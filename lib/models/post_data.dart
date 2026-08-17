@@ -8,7 +8,9 @@ mixin PostDataMixin {
 }
 
 @Freezed(fromJson: false, toJson: true)
-class RegisterPostData with _$RegisterPostData, PostDataMixin {
+abstract class RegisterPostData with _$RegisterPostData, PostDataMixin {
+  RegisterPostData._();
+
   factory RegisterPostData({
     required String acct,
     required String pw,
@@ -18,7 +20,9 @@ class RegisterPostData with _$RegisterPostData, PostDataMixin {
 }
 
 @Freezed(fromJson: false, toJson: true)
-class LoginPostData with _$LoginPostData, PostDataMixin {
+abstract class LoginPostData with _$LoginPostData, PostDataMixin {
+  LoginPostData._();
+
   factory LoginPostData({
     required String acct,
     required String pw,
@@ -27,7 +31,9 @@ class LoginPostData with _$LoginPostData, PostDataMixin {
 }
 
 @Freezed(fromJson: false, toJson: true)
-class FavoritePostData with _$FavoritePostData, PostDataMixin {
+abstract class FavoritePostData with _$FavoritePostData, PostDataMixin {
+  FavoritePostData._();
+
   factory FavoritePostData({
     required String acct,
     required String pw,
@@ -37,7 +43,9 @@ class FavoritePostData with _$FavoritePostData, PostDataMixin {
 }
 
 @Freezed(fromJson: false, toJson: true)
-class VotePostData with _$VotePostData, PostDataMixin {
+abstract class VotePostData with _$VotePostData, PostDataMixin {
+  VotePostData._();
+
   factory VotePostData({
     required String acct,
     required String pw,
@@ -47,7 +55,9 @@ class VotePostData with _$VotePostData, PostDataMixin {
 }
 
 @Freezed(fromJson: false, toJson: true)
-class FlagPostData with _$FlagPostData, PostDataMixin {
+abstract class FlagPostData with _$FlagPostData, PostDataMixin {
+  FlagPostData._();
+
   factory FlagPostData({
     required String acct,
     required String pw,
@@ -57,7 +67,9 @@ class FlagPostData with _$FlagPostData, PostDataMixin {
 }
 
 @Freezed(fromJson: false, toJson: true)
-class CommentPostData with _$CommentPostData, PostDataMixin {
+abstract class CommentPostData with _$CommentPostData, PostDataMixin {
+  CommentPostData._();
+
   factory CommentPostData({
     required String acct,
     required String pw,
@@ -67,7 +79,9 @@ class CommentPostData with _$CommentPostData, PostDataMixin {
 }
 
 @Freezed(fromJson: false, toJson: true)
-class EditPostData with _$EditPostData, PostDataMixin {
+abstract class EditPostData with _$EditPostData, PostDataMixin {
+  EditPostData._();
+
   factory EditPostData({
     required String hmac,
     required int id,
@@ -77,7 +91,9 @@ class EditPostData with _$EditPostData, PostDataMixin {
 }
 
 @Freezed(fromJson: false, toJson: true)
-class DeletePostData with _$DeletePostData, PostDataMixin {
+abstract class DeletePostData with _$DeletePostData, PostDataMixin {
+  DeletePostData._();
+
   factory DeletePostData({
     required String hmac,
     required int id,
@@ -86,7 +102,9 @@ class DeletePostData with _$DeletePostData, PostDataMixin {
 }
 
 @Freezed(fromJson: false, toJson: true)
-class SubmitPostData with _$SubmitPostData, PostDataMixin {
+abstract class SubmitPostData with _$SubmitPostData, PostDataMixin {
+  SubmitPostData._();
+
   factory SubmitPostData({
     required String fnid,
     required String fnop,
@@ -97,7 +115,9 @@ class SubmitPostData with _$SubmitPostData, PostDataMixin {
 }
 
 @Freezed(fromJson: false, toJson: true)
-class FormPostData with _$FormPostData, PostDataMixin {
+abstract class FormPostData with _$FormPostData, PostDataMixin {
+  FormPostData._();
+
   factory FormPostData({
     required String acct,
     required String pw,

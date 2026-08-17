@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'tree_item.freezed.dart';
 
 @freezed
-class TreeItem with _$TreeItem {
+abstract class TreeItem with _$TreeItem {
   factory TreeItem({
     required int id,
     @Default(<TreeItem>[]) Iterable<TreeItem> childTreeItems,

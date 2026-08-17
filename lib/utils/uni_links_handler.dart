@@ -1,37 +1,27 @@
 import 'dart:async';
 
+import 'package:app_links/app_links.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:glider/pages/item_page.dart';
 import 'package:glider/pages/user_page.dart';
-import 'package:uni_links/uni_links.dart';
 
 class UniLinksHandler {
   UniLinksHandler._();
 
-  static StreamSubscription<Uri?>? uriSubscription;
+  static final AppLinks _appLinks = AppLinks();
+  static StreamSubscription<Uri>? uriSubscription;
 
   static Future<void> init(BuildContext context) async {
     if (!kIsWeb) {
-      try {
-        uriSubscription = uriLinkStream.listen(
-          (Uri? uri) => _handleUri(context, uri),
-        );
-
-        _handleUri(context, await getInitialUri());
-      } on MissingPluginException {
-        // Fail silently.
-      }
+      uriSubscription = _appLinks.uriLinkStream.listen(
+        (Uri uri) => _handleUri(context, uri),
+      );
     }
   }
 
   static void dispose() {
-    try {
-      uriSubscription?.cancel();
-    } on MissingPluginException {
-      // Fail silently.
-    }
+    uriSubscription?.cancel();
   }
 
   static void _handleUri(BuildContext context, Uri? uri) {

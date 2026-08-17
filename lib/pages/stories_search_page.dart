@@ -1,7 +1,7 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:glider/l10n/app_localizations.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:glider/models/search_order.dart';
 import 'package:glider/models/search_range.dart';
@@ -12,31 +12,32 @@ import 'package:glider/widgets/common/floating_app_bar_scroll_view.dart';
 import 'package:glider/widgets/common/scroll_to_top_scaffold.dart';
 import 'package:glider/widgets/items/stories_search_body.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:hooks_riverpod/legacy.dart';
 
-final AutoDisposeStateProvider<String> storySearchQueryStateProvider =
+final StateProvider<String> storySearchQueryStateProvider =
     StateProvider.autoDispose<String>(
-  (AutoDisposeStateProviderRef<String> ref) => '',
+  (Ref ref) => '',
 );
 
-final AutoDisposeStateProvider<SearchRange?> storySearchRangeStateProvider =
+final StateProvider<SearchRange?> storySearchRangeStateProvider =
     StateProvider.autoDispose<SearchRange?>(
-  (AutoDisposeStateProviderRef<SearchRange?> ref) => null,
+  (Ref ref) => null,
 );
 
-final AutoDisposeStateProvider<DateTimeRange?>
+final StateProvider<DateTimeRange?>
     storySearchCustomDateTimeRangeStateProvider =
     StateProvider.autoDispose<DateTimeRange?>(
-  (AutoDisposeStateProviderRef<DateTimeRange?> ref) => null,
+  (Ref ref) => null,
 );
 
-final AutoDisposeStateProvider<SearchOrder> storySearchOrderStateProvider =
+final StateProvider<SearchOrder> storySearchOrderStateProvider =
     StateProvider.autoDispose<SearchOrder>(
-  (AutoDisposeStateProviderRef<SearchOrder> ref) => SearchOrder.byRelevance,
+  (Ref ref) => SearchOrder.byRelevance,
 );
 
-final AutoDisposeStateProvider<int> storySearchPaginationStateProvider =
+final StateProvider<int> storySearchPaginationStateProvider =
     StateProvider.autoDispose<int>(
-  (AutoDisposeStateProviderRef<int> ref) => PaginationMixin.initialPage,
+  (Ref ref) => PaginationMixin.initialPage,
 );
 
 class StoriesSearchPage extends HookConsumerWidget with PaginationMixin {
@@ -52,7 +53,7 @@ class StoriesSearchPage extends HookConsumerWidget with PaginationMixin {
   final bool enableSearch;
 
   @override
-  AutoDisposeStateProvider<int> get paginationStateProvider =>
+  StateProvider<int> get paginationStateProvider =>
       storySearchPaginationStateProvider;
 
   @override
@@ -62,11 +63,11 @@ class StoriesSearchPage extends HookConsumerWidget with PaginationMixin {
 
     final TextEditingController queryController = useTextEditingController();
     final StateController<String> storySearchQueryStateController =
-        ref.watch(storySearchQueryStateProvider.state);
+        ref.watch(storySearchQueryStateProvider.notifier);
     final StateController<SearchRange?> storySearchRangeStateController =
-        ref.watch(storySearchRangeStateProvider.state);
+        ref.watch(storySearchRangeStateProvider.notifier);
     final StateController<SearchOrder> storySearchOrderStateController =
-        ref.watch(storySearchOrderStateProvider.state);
+        ref.watch(storySearchOrderStateProvider.notifier);
     useMemoized(
       () => Future<void>.microtask(
         () => storySearchRangeStateController.update((_) => initialSearchRange),
@@ -191,7 +192,7 @@ class SearchRangeChip extends HookConsumerWidget with PaginationMixin {
   final SearchRange searchRange;
 
   @override
-  AutoDisposeStateProvider<int> get paginationStateProvider =>
+  StateProvider<int> get paginationStateProvider =>
       storySearchPaginationStateProvider;
 
   @override
@@ -207,7 +208,7 @@ class SearchRangeChip extends HookConsumerWidget with PaginationMixin {
       onSelected: (bool selected) async {
         resetPagination(ref);
         ref
-            .read(storySearchCustomDateTimeRangeStateProvider.state)
+            .read(storySearchCustomDateTimeRangeStateProvider.notifier)
             .update((_) => null);
 
         if (searchRange == SearchRange.custom && selected) {
@@ -217,7 +218,7 @@ class SearchRangeChip extends HookConsumerWidget with PaginationMixin {
             lastDate: DateTime.now(),
           );
           ref
-              .read(storySearchCustomDateTimeRangeStateProvider.state)
+              .read(storySearchCustomDateTimeRangeStateProvider.notifier)
               .update((_) => dateTimeRange);
 
           if (ref.read(storySearchCustomDateTimeRangeStateProvider) == null) {
@@ -227,7 +228,7 @@ class SearchRangeChip extends HookConsumerWidget with PaginationMixin {
 
         resetPagination(ref);
         ref
-            .read(storySearchRangeStateProvider.state)
+            .read(storySearchRangeStateProvider.notifier)
             .update((_) => selected ? searchRange : null);
       },
     );

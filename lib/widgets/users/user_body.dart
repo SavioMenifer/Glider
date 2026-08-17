@@ -12,6 +12,7 @@ import 'package:glider/widgets/items/story_tile_loading.dart';
 import 'package:glider/widgets/users/user_tile_data.dart';
 import 'package:glider/widgets/users/user_tile_loading.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:hooks_riverpod/legacy.dart';
 
 class UserBody extends HookConsumerWidget with PaginationMixin {
   const UserBody({super.key, required this.id});
@@ -19,7 +20,7 @@ class UserBody extends HookConsumerWidget with PaginationMixin {
   final String id;
 
   @override
-  AutoDisposeStateProvider<int> get paginationStateProvider =>
+  StateProvider<int> get paginationStateProvider =>
       userPaginationStateProvider;
 
   @override

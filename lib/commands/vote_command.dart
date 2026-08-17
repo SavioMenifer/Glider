@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:glider/l10n/app_localizations.dart';
 import 'package:glider/commands/command.dart';
 import 'package:glider/models/item.dart';
 import 'package:glider/pages/account_page.dart';
@@ -12,6 +12,7 @@ import 'package:glider/repositories/auth_repository.dart';
 import 'package:glider/utils/async_state_notifier.dart';
 import 'package:glider/utils/scaffold_messenger_state_extension.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:hooks_riverpod/legacy.dart';
 
 class VoteCommand with CommandMixin {
   const VoteCommand(this.context, this.ref,

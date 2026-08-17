@@ -28,20 +28,18 @@ final FutureProvider<SharedPreferences> _sharedPreferences =
 
 final Provider<FlutterSecureStorage> _secureStorageProvider =
     Provider<FlutterSecureStorage>(
-  (_) => const FlutterSecureStorage(
-    aOptions: AndroidOptions(encryptedSharedPreferences: true),
-  ),
+  (_) => const FlutterSecureStorage(),
 );
 
 final Provider<ApiRepository> apiRepositoryProvider = Provider<ApiRepository>(
-  (ProviderRef<ApiRepository> ref) => ApiRepository(
+  (Ref ref) => ApiRepository(
     ref.read(_dioProvider),
   ),
 );
 
 final Provider<AuthRepository> authRepositoryProvider =
     Provider<AuthRepository>(
-  (ProviderRef<AuthRepository> ref) => AuthRepository(
+  (Ref ref) => AuthRepository(
     ref.read(websiteRepositoryProvider),
     ref.read(storageRepositoryProvider),
   ),
@@ -49,28 +47,28 @@ final Provider<AuthRepository> authRepositoryProvider =
 
 final Provider<SearchApiRepository> searchApiRepositoryProvider =
     Provider<SearchApiRepository>(
-  (ProviderRef<SearchApiRepository> ref) => SearchApiRepository(
+  (Ref ref) => SearchApiRepository(
     ref.read(_dioProvider),
   ),
 );
 
 final Provider<StorageRepository> storageRepositoryProvider =
     Provider<StorageRepository>(
-  (ProviderRef<StorageRepository> ref) => StorageRepository(
+  (Ref ref) => StorageRepository(
     ref.read(_secureStorageProvider),
     ref.read(_sharedPreferences.future),
   ),
 );
 
 final Provider<WebRepository> webRepositoryProvider = Provider<WebRepository>(
-  (ProviderRef<WebRepository> ref) => WebRepository(
+  (Ref ref) => WebRepository(
     ref.read(_dioProvider),
   ),
 );
 
 final Provider<WebsiteRepository> websiteRepositoryProvider =
     Provider<WebsiteRepository>(
-  (ProviderRef<WebsiteRepository> ref) => WebsiteRepository(
+  (Ref ref) => WebsiteRepository(
     ref.read(_dioProvider),
   ),
 );
