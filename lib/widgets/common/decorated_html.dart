@@ -25,10 +25,6 @@ class DecoratedHtml extends HookConsumerWidget {
       factoryBuilder: _DecoratedWidgetFactory.new,
       onTapUrl: (String url) => UrlUtil.tryLaunch(context, ref, url),
       textStyle: Theme.of(context).textTheme.bodyMedium,
-      customStylesBuilder: (dom.Element element) =>
-          element.localName == 'pre' || element.localName == 'code'
-              ? <String, String>{'white-space': 'pre-wrap'}
-              : null,
     );
   }
 }
@@ -36,6 +32,14 @@ class DecoratedHtml extends HookConsumerWidget {
 class _DecoratedWidgetFactory extends WidgetFactory {
   static final RegExp _quoteRegex = RegExp(r'\s*(&gt;)+\s*');
   static final RegExp _unescapedQuoteRegex = RegExp(r'\s*>+\s*');
+
+  @override
+  Widget? buildHorizontalScrollView(BuildTree tree, Widget child) =>
+      // Hacker News <pre> blocks should wrap onto new lines instead of
+      // scrolling horizontally.
+      tree.element.localName == 'pre'
+          ? child
+          : super.buildHorizontalScrollView(tree, child);
 
   @override
   void parse(BuildMetadata meta) {
