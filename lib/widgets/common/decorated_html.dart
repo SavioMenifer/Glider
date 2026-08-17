@@ -25,6 +25,10 @@ class DecoratedHtml extends HookConsumerWidget {
       factoryBuilder: _DecoratedWidgetFactory.new,
       onTapUrl: (String url) => UrlUtil.tryLaunch(context, ref, url),
       textStyle: Theme.of(context).textTheme.bodyMedium,
+      customStylesBuilder: (dom.Element element) =>
+          element.localName == 'pre' || element.localName == 'code'
+              ? <String, String>{'white-space': 'pre-wrap'}
+              : null,
     );
   }
 }
@@ -35,47 +39,34 @@ class _DecoratedWidgetFactory extends WidgetFactory {
 
   @override
   void parse(BuildMetadata meta) {
-    if (meta.element.innerHtml.startsWith(_quoteRegex)) {
-      meta.register(_quoteOp);
+    final String innerHtml = meta.element.innerHtml;
+
+    if (innerHtml.startsWith(_quoteRegex)) {
+      final int quoteDepth = _quoteRegex.allMatches(innerHtml).length;
+      final dom.Node? firstChild = meta.element.nodes.firstOrNull;
+
+      if (firstChild is dom.Text) {
+        firstChild.text =
+            firstChild.text.replaceAll(_unescapedQuoteRegex, '');
+      }
+
+      meta.register(_buildQuoteOp(quoteDepth));
     } else {
       super.parse(meta);
     }
   }
 
-  late final BuildOp _quoteOp = BuildOp(
-    defaultStyles: (dom.Element element) => <String, String>{'margin': '0'},
-    onTree: (BuildMetadata meta, BuildTree tree) {
-      final BuildBit<dynamic, dynamic>? bit = tree.bits.firstOrNull;
+  BuildOp _buildQuoteOp(int quoteDepth) => BuildOp(
+        defaultStyles: (dom.Element element) =>
+            <String, String>{'margin': '0'},
+        onRenderBlock: (BuildTree tree, WidgetPlaceholder placeholder) {
+          Widget child = SizedBox(width: double.infinity, child: placeholder);
 
-      if (bit is TextBit) {
-        TextBit(
-          tree,
-          bit.data.replaceAll(_unescapedQuoteRegex, ''),
-          tsb: bit.tsb,
-        ).insertBefore(bit);
-        bit.detach();
-      }
-    },
-    onWidgets: (
-      BuildMetadata meta,
-      Iterable<WidgetPlaceholder<dynamic>> widgets,
-    ) =>
-        listOrNull(
-      buildColumnPlaceholder(meta, widgets)!.wrapWith(
-        (_, Widget child) {
-          final Iterable<RegExpMatch> matches =
-              _quoteRegex.allMatches(meta.element.innerHtml);
-
-          for (final RegExpMatch _ in matches) {
+          for (int i = 0; i < quoteDepth; i++) {
             child = Block(child: child);
           }
 
-          return SizedBox(
-            width: double.infinity,
-            child: child,
-          );
+          return child;
         },
-      ),
-    ),
-  );
+      );
 }
