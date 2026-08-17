@@ -11,7 +11,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace 'nl.viter.glider'
+    namespace 'dev.savio.glider'
 
     compileSdkVersion 36
     ndkVersion flutter.ndkVersion
@@ -30,7 +30,7 @@ android {
     }
 
     defaultConfig {
-        applicationId 'nl.viter.glider'
+        applicationId 'dev.savio.glider'
         minSdkVersion flutter.minSdkVersion
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutter.versionCode

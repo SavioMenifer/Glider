@@ -53,6 +53,7 @@ class AppTheme {
     final bool useGestures = ref.watch(useGesturesProvider).value ?? true;
 
     return ThemeData(
+      useMaterial3: false,
       brightness: brightness,
       visualDensity: VisualDensity.standard,
       colorScheme: brightness.isDark

@@ -1,4 +1,4 @@
-package nl.viter.glider
+package dev.savio.glider
 
 import android.os.Bundle
 import androidx.core.view.WindowCompat
