@@ -55,12 +55,11 @@ abstract class Item with _$Item {
 
   String? faviconUrl(int size) => urlHost != null
       ? Uri.https(
-          'icons.viter.nl',
-          'icon',
+          'www.google.com',
+          's2/favicons',
           <String, String>{
-            'url': urlHost!,
-            'size': '0..$size..500',
-            'formats': 'gif,ico,jpg,png',
+            'domain': urlHost!,
+            'sz': '$size',
           },
         ).toString()
       : null;
