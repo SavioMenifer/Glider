@@ -214,6 +214,7 @@ class ThemeModeButton extends HookConsumerWidget {
             ref.invalidate(themeModeProvider);
           },
           selected: selected,
+          showCheckmark: false,
           label: Text(mode.title(context)),
         ),
       ),
@@ -264,6 +265,7 @@ class DarkThemeButton extends HookConsumerWidget {
         child: ChoiceChip(
           label: Text(darkTheme.title(context)),
           selected: selected,
+          showCheckmark: false,
           onSelected: (_) async {
             await ref.read(storageRepositoryProvider).setDarkTheme(darkTheme);
             ref.invalidate(darkThemeProvider);
@@ -319,6 +321,7 @@ class ThemeColorButton extends HookConsumerWidget {
             color: selected ? color : Colors.transparent,
           ),
           selected: selected,
+          showCheckmark: false,
           onSelected: (_) async {
             await ref.read(storageRepositoryProvider).setThemeColor(color);
             ref.invalidate(themeColorProvider);
