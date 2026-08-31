@@ -1,5 +1,6 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:glider/app_theme.dart';
 import 'package:glider/models/item.dart';
 import 'package:glider/providers/persistence_provider.dart';
 import 'package:glider/utils/animation_util.dart';
@@ -39,7 +40,7 @@ class ItemTileFavicon extends HookConsumerWidget {
               borderRadius: _borderRadius,
               child: Container(
                 padding: const EdgeInsets.all(4),
-                color: Theme.of(context).colorScheme.surface,
+                color: AppTheme.blockColor,
                 child: child,
               ),
             ),
@@ -61,7 +62,7 @@ class ItemTileFavicon extends HookConsumerWidget {
     return TileLoadingBlock(
       width: size,
       height: size,
-      color: Theme.of(context).colorScheme.surface,
+      color: AppTheme.blockColor,
     );
   }
 }

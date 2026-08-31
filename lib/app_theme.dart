@@ -18,7 +18,17 @@ class AppTheme {
       );
 
   static final Color defaultColor = themeColors.first;
-  static final Color surfaceColor = Colors.grey.withOpacity(0.15);
+
+  // A subtle neutral tint used as the fill behind inline "blocks" - code and
+  // quote blocks, chips, the favicon placeholder, username tags, shimmer. Kept
+  // translucent so the one value reads correctly on every background theme
+  // (light, dark, black, space) without a per-theme opaque shade.
+  //
+  // This is deliberately NOT wired into colorScheme.surface: Material paints
+  // floating overlays (most visibly the text selection toolbar) with the raw
+  // surface color whenever it differs from the SDK default, and a translucent
+  // surface there lets whatever is underneath bleed through the menu.
+  static final Color blockColor = Colors.grey.withOpacity(0.15);
   static final Color errorColor = Colors.red.shade400;
   static const Color onErrorColor = Colors.white;
   static final Color lightBackgroundColor = Colors.grey.shade50;
@@ -47,6 +57,10 @@ class AppTheme {
         ThemeData.estimateBrightnessForColor(color);
     final Color onColor = colorBrightness.isDark ? Colors.white : Colors.black;
     final Color canvasColor = backgroundColor.lighten(0.05);
+    // Opaque equivalent of [blockColor] over the scaffold, so components that
+    // treat colorScheme.surface as a solid overlay (e.g. the text selection
+    // toolbar) don't show content bleeding through.
+    final Color surfaceColor = Color.alphaBlend(blockColor, backgroundColor);
     final Color appBarBackgroundColor =
         brightness.isDark ? backgroundColor : color;
     final bool appBarIsDark = brightness.isDark || colorBrightness.isDark;

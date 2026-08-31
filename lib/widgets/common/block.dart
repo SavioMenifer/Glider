@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:glider/app_theme.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class Block extends HookConsumerWidget {
@@ -11,7 +12,7 @@ class Block extends HookConsumerWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
+        color: AppTheme.blockColor,
       ),
       child: child,
     );

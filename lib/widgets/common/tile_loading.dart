@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
+import 'package:glider/app_theme.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -14,8 +15,8 @@ class TileLoading extends HookConsumerWidget {
       return child;
     } else {
       return Shimmer.fromColors(
-        baseColor: Theme.of(context).colorScheme.surface,
-        highlightColor: Theme.of(context).colorScheme.surface.withOpacity(0.25),
+        baseColor: AppTheme.blockColor,
+        highlightColor: AppTheme.blockColor.withOpacity(0.25),
         child: child,
       );
     }

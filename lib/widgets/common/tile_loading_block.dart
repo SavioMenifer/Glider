@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
+import 'package:glider/app_theme.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class TileLoadingBlock extends HookConsumerWidget {
@@ -16,8 +17,7 @@ class TileLoadingBlock extends HookConsumerWidget {
       height: height,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(4),
-        color: color ??
-            (kIsWeb ? Theme.of(context).colorScheme.surface : Colors.white),
+        color: color ?? (kIsWeb ? AppTheme.blockColor : Colors.white),
       ),
     );
   }
