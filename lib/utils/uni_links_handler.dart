@@ -40,8 +40,15 @@ class UniLinksHandler {
   static void _handleItemUri(BuildContext context, Uri uri) {
     const String idKey = 'id';
 
-    if (uri.queryParameters.containsKey(idKey)) {
-      final int? id = int.tryParse(uri.queryParameters[idKey]!);
+    // A link to a specific comment within a thread carries that comment's id
+    // in the URL fragment (item?id=<story>#<comment>). Prefer it so the page
+    // opens rooted at that comment - matching what happens when the comment's
+    // own permalink (item?id=<comment>) is opened directly.
+    final int? fragmentId = _itemIdFromFragment(uri.fragment);
+
+    if (fragmentId != null || uri.queryParameters.containsKey(idKey)) {
+      final int? id =
+          fragmentId ?? int.tryParse(uri.queryParameters[idKey] ?? '');
 
       if (id != null) {
         Navigator.of(context).push<void>(
@@ -51,6 +58,11 @@ class UniLinksHandler {
         );
       }
     }
+  }
+
+  static int? _itemIdFromFragment(String fragment) {
+    final Match? match = RegExp(r'\d+').firstMatch(fragment);
+    return match != null ? int.tryParse(match[0]!) : null;
   }
 
   static void _handleUserUri(BuildContext context, Uri uri) {

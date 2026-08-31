@@ -44,7 +44,12 @@ class UrlUtil {
 
     switch (uri.pathSegments.first) {
       case 'item':
-        final int? id = int.tryParse(uri.queryParameters['id'] ?? '');
+        // A link to a specific comment within a thread carries that comment's
+        // id in the URL fragment (item?id=<story>#<comment>). Prefer it so the
+        // page opens rooted at that comment - matching what happens when the
+        // comment's own permalink (item?id=<comment>) is opened directly.
+        final int? id = _itemIdFromFragment(uri.fragment) ??
+            int.tryParse(uri.queryParameters['id'] ?? '');
 
         if (id != null) {
           Navigator.of(context).push<void>(
@@ -64,6 +69,11 @@ class UrlUtil {
     }
 
     return false;
+  }
+
+  static int? _itemIdFromFragment(String fragment) {
+    final Match? match = RegExp(r'\d+').firstMatch(fragment);
+    return match != null ? int.tryParse(match[0]!) : null;
   }
 
   static Future<bool> _tryLaunchNonBrowser(String urlString) async {
